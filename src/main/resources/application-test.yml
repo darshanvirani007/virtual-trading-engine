@@ -5,13 +5,13 @@ spring:
     password: vtepass
     driver-class-name: org.postgresql.Driver
 
+  flyway:
+    enabled: true
+
   jpa:
     hibernate:
       ddl-auto: validate
     show-sql: false
-
-  flyway:
-    enabled: true
 
   cache:
     type: caffeine
@@ -25,7 +25,3 @@ security:
     expiration: 3600000
   refresh:
     expiration: 1209600000
-
-logging:
-  level:
-    com.virtualtradingengine.virtual_trading_engine: INFO
