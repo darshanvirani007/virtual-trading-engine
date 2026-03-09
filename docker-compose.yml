@@ -1,0 +1,33 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: vte-postgres
+    environment:
+      POSTGRES_DB: virtualtrading
+      POSTGRES_USER: vte
+      POSTGRES_PASSWORD: vtepass
+    ports:
+      - "5432:5432"
+    volumes:
+      - vte_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vte -d virtualtrading"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    container_name: vte-app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      JWT_SECRET: dev-secret-please-change-this-to-at-least-32-characters
+      ALPHAVANTAGE_API_KEY: demo
+    ports:
+      - "8080:8080"
+
+volumes:
+  vte_pgdata:

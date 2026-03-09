@@ -1,0 +1,46 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/virtualtrading
+    username: vte
+    password: vtepass
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    defer-datasource-initialization: true
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+      jakarta:
+        persistence:
+          schema-generation:
+            database:
+              action: update
+
+    cache:
+      type: caffeine
+      cache-names: quotes
+      caffeine:
+        spec: maximumSize=500,expireAfterWrite=60s
+
+    logging:
+      level:
+        com.virtualtradingengine.virtual_trading_engine: INFO
+
+    server:
+      error:
+        include-message: always
+
+stock-api:
+  alpha-vantage:
+    base-url: https://www.alphavantage.co
+    api-key: ${ALPHAVANTAGE_API_KEY:demo}
+
+security:
+  jwt:
+    secret: ${JWT_SECRET:dev-secret-please-change-this-to-at-least-32-chars}
+    expiration: 3600000
+  refresh:
+    expiration: 1209600000  # 14 days in ms

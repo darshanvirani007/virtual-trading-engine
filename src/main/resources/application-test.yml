@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/virtualtrading
+    username: vte
+    password: vtepass
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+
+  flyway:
+    enabled: true
+
+  cache:
+    type: caffeine
+    cache-names: quotes
+    caffeine:
+      spec: maximumSize=500,expireAfterWrite=60s
+
+security:
+  jwt:
+    secret: ${JWT_SECRET:test-secret-key-with-at-least-32-characters}
+    expiration: 3600000
+  refresh:
+    expiration: 1209600000
+
+logging:
+  level:
+    com.virtualtradingengine.virtual_trading_engine: INFO
